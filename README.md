@@ -8,13 +8,13 @@ A [Flower Framework](https://github.com/adap/flower) based federated learning co
 - **npm** (version 9 or higher) for the frontend
 - **Python** 3.10+
 - **Golang** 1.22 (to compile if desired)
-- **MySQL**
+- **MySQL** 8
 - A server certificate to distribute to the participating nodes
 - Server public and private keys (check `authentication/certificates` and `authentication/keys`)
 
 ### 1. Clone the Repository
 ```sh
-git clone https://github.com/user/repo.git
+git clone https://github.com/dfabbroni/icfl-link.git
 cd repo
 ```
 
