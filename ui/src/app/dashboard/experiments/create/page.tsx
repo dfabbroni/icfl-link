@@ -16,10 +16,10 @@ interface Node {
 }
 
 interface SelectedNode {
-    id: string;
-    node_id: string;
-    metadata_id: string;
-  }
+  id: string;
+  node_id: string;
+  metadata_id: string;
+}
 
 export default function CreateExperimentPage() {
   const router = useRouter()
@@ -28,7 +28,7 @@ export default function CreateExperimentPage() {
   const [description, setDescription] = useState('')
   const [zipFile, setZipFile] = useState<File | null>(null)
   const [nodes, setNodes] = useState<Node[]>([])
-  const [selectedNodes, setSelectedNodes] = useState<SelectedNode[]>([]);
+  const [selectedNodes, setSelectedNodes] = useState<SelectedNode[]>([])
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function CreateExperimentPage() {
   const fetchMetadata = async () => {
     try {
       const metadata = await metadataService.getAll()
-      const groupedNodes: {[key: string]: Metadata[]} = {}
+      const groupedNodes: { [key: string]: Metadata[] } = {}
       metadata.forEach((item: Metadata) => {
         if (!groupedNodes[item.NodeID]) {
           groupedNodes[item.NodeID] = []
@@ -59,18 +59,18 @@ export default function CreateExperimentPage() {
 
   const handleNodeSelection = (nodeId: string, id: string, metadataId: string) => {
     setSelectedNodes(prev => {
-      const existingIndex = prev.findIndex(node => node.node_id === nodeId);
+      const existingIndex = prev.findIndex(node => node.node_id === nodeId)
       if (existingIndex !== -1) {
-        const newNodes = [...prev];
-        newNodes[existingIndex] = { node_id: nodeId, id: id, metadata_id: metadataId };
-        return newNodes;
+        const newNodes = [...prev]
+        newNodes[existingIndex] = { node_id: nodeId, id: id, metadata_id: metadataId }
+        return newNodes
       } else {
-        return [...prev, { node_id: nodeId, id: id, metadata_id: metadataId }];
+        return [...prev, { node_id: nodeId, id: id, metadata_id: metadataId }]
       }
-    });
+    })
   }
 
-  const filteredNodes = nodes.filter(node => 
+  const filteredNodes = nodes.filter(node =>
     node.id.toLowerCase().includes(filter.toLowerCase()) ||
     node.metadata.some(m => m.Name.toLowerCase().includes(filter.toLowerCase()))
   )
@@ -82,17 +82,11 @@ export default function CreateExperimentPage() {
     formData.append('description', description)
     if (zipFile) formData.append('experimentFiles', zipFile)
     formData.append('selectedNodes', JSON.stringify(selectedNodes.map(node => ({
-        ...node,
-        node_id: Number(node.node_id),
-        id: Number(node.id),
-        metadata_id: Number(node.metadata_id)
-    }))));
-    
-    // Fix the linter error by using Array.from()
-    console.log('FormData contents:');
-    Array.from(formData.entries()).forEach(([key, value]) => {
-      console.log(key, typeof value === 'string' ? value : `File: ${value.name}`);
-    });
+      ...node,
+      node_id: Number(node.node_id),
+      id: Number(node.id),
+      metadata_id: Number(node.metadata_id)
+    }))))
 
     try {
       await experimentService.create(formData)
@@ -104,9 +98,9 @@ export default function CreateExperimentPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Create New Experiment</h1>
+      <h1 className="text-3xl font-bold text-center mb-6">Create New Experiment</h1>
       {step === 1 && (
-        <form onSubmit={(e) => { e.preventDefault(); setStep(2) }} className="space-y-4">
+        <form onSubmit={(e) => { e.preventDefault(); setStep(2) }} className="space-y-4 max-w-lg mx-auto">
           <Input 
             placeholder="Experiment Name" 
             value={name} 
@@ -125,11 +119,11 @@ export default function CreateExperimentPage() {
             accept=".zip"
             required
           />
-          <Button type="submit">Next</Button>
+          <Button type="submit" className="w-full">Next</Button>
         </form>
       )}
       {step === 2 && (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 max-w-lg mx-auto">
           <Input 
             placeholder="Filter nodes" 
             value={filter} 
@@ -154,7 +148,7 @@ export default function CreateExperimentPage() {
               </div>
             ))}
           </div>
-          <Button type="submit">Create Experiment</Button>
+          <Button type="submit" className="w-full">Create Experiment</Button>
         </form>
       )}
     </div>

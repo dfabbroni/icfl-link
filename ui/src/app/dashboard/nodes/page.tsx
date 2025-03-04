@@ -54,8 +54,8 @@ export default function NodesPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Nodes</h1>
-      <div>
+      <h1 className="text-3xl font-bold text-center mb-6">Nodes</h1>
+      <div className="flex justify-center mb-4">
         <Select onValueChange={(value: 'all' | 'true' | 'false') => setFilter(value)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Filter by approval" />
@@ -67,35 +67,37 @@ export default function NodesPage() {
           </SelectContent>
         </Select>
       </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Username</TableHead>
-            <TableHead>Approved</TableHead>
-            <TableHead>Last Seen</TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredNodes.map((node) => (
-            <TableRow key={node.ID}>
-              <TableCell>{node.ID}</TableCell>
-              <TableCell>{node.Username}</TableCell>
-              <TableCell>{node.Approved ? 'Yes' : 'No'}</TableCell>
-              <TableCell>{new Date(node.LastSeen).toLocaleString()}</TableCell>
-              <TableCell>
-                {!node.Approved && (
-                  <div className="space-x-2">
-                    <Button onClick={() => handleApprove(node.ID)}>Approve</Button>
-                    <Button variant="destructive" onClick={() => handleReject(node.ID)}>Reject</Button>
-                  </div>
-                )}
-              </TableCell>
+      <div className="overflow-x-auto">
+        <Table className="min-w-full bg-white shadow-md rounded-lg">
+          <TableHeader>
+            <TableRow>
+              <TableHead>ID</TableHead>
+              <TableHead>Username</TableHead>
+              <TableHead>Approved</TableHead>
+              <TableHead>Last Seen</TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {filteredNodes.map((node) => (
+              <TableRow key={node.ID} className="hover:bg-gray-100">
+                <TableCell>{node.ID}</TableCell>
+                <TableCell>{node.Username}</TableCell>
+                <TableCell>{node.Approved ? 'Yes' : 'No'}</TableCell>
+                <TableCell>{new Date(node.LastSeen).toLocaleString()}</TableCell>
+                <TableCell>
+                  {!node.Approved && (
+                    <div className="space-x-2">
+                      <Button onClick={() => handleApprove(node.ID)}>Approve</Button>
+                      <Button variant="destructive" onClick={() => handleReject(node.ID)}>Reject</Button>
+                    </div>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   )
 }

@@ -68,8 +68,8 @@ export default function MetadataPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Metadata</h1>
-      <div className="flex space-x-4">
+      <h1 className="text-3xl font-bold text-center mb-6">Metadata</h1>
+      <div className="flex flex-wrap justify-center gap-4 mb-4">
         <Input
           placeholder="Search..."
           value={searchTerm}
@@ -97,48 +97,50 @@ export default function MetadataPage() {
           </SelectContent>
         </Select>
       </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>
-              <Button variant="ghost" onClick={() => handleSort('NodeID')}>
-                Node ID {sortKey === 'NodeID' && (sortDirection === 'asc' ? '▲' : '▼')}
-              </Button>
-            </TableHead>
-            <TableHead>Node Metadata ID</TableHead>
-            <TableHead>
-              <Button variant="ghost" onClick={() => handleSort('Name')}>
-                Name {sortKey === 'Name' && (sortDirection === 'asc' ? '▲' : '▼')}
-              </Button>
-            </TableHead>
-            <TableHead>
-              <Button variant="ghost" onClick={() => handleSort('Type')}>
-                Type {sortKey === 'Type' && (sortDirection === 'asc' ? '▲' : '▼')}
-              </Button>
-            </TableHead>
-            <TableHead>
-              <Button variant="ghost" onClick={() => handleSort('Tags')}>
-                Tags {sortKey === 'Tags' && (sortDirection === 'asc' ? '▲' : '▼')}
-              </Button>
-            </TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Extras</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredAndSortedMetadata.map((item) => (
-            <TableRow key={item.NodeMetadataID}>
-              <TableCell>{item.NodeID}</TableCell>
-              <TableCell>{item.NodeMetadataID}</TableCell>
-              <TableCell>{item.Name}</TableCell>
-              <TableCell>{item.Type}</TableCell>
-              <TableCell>{item.Tags}</TableCell>
-              <TableCell>{item.Description}</TableCell>
-              <TableCell>{JSON.stringify(item.Extras)}</TableCell>
+      <div className="overflow-x-auto">
+        <Table className="min-w-full bg-white shadow-md rounded-lg">
+          <TableHeader>
+            <TableRow>
+              <TableHead>
+                <Button variant="ghost" onClick={() => handleSort('NodeID')}>
+                  Node ID {sortKey === 'NodeID' && (sortDirection === 'asc' ? '▲' : '▼')}
+                </Button>
+              </TableHead>
+              <TableHead>Node Metadata ID</TableHead>
+              <TableHead>
+                <Button variant="ghost" onClick={() => handleSort('Name')}>
+                  Name {sortKey === 'Name' && (sortDirection === 'asc' ? '▲' : '▼')}
+                </Button>
+              </TableHead>
+              <TableHead>
+                <Button variant="ghost" onClick={() => handleSort('Type')}>
+                  Type {sortKey === 'Type' && (sortDirection === 'asc' ? '▲' : '▼')}
+                </Button>
+              </TableHead>
+              <TableHead>
+                <Button variant="ghost" onClick={() => handleSort('Tags')}>
+                  Tags {sortKey === 'Tags' && (sortDirection === 'asc' ? '▲' : '▼')}
+                </Button>
+              </TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead>Extras</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {filteredAndSortedMetadata.map((item) => (
+              <TableRow key={item.NodeMetadataID} className="hover:bg-gray-100">
+                <TableCell>{item.NodeID}</TableCell>
+                <TableCell>{item.NodeMetadataID}</TableCell>
+                <TableCell>{item.Name}</TableCell>
+                <TableCell>{item.Type}</TableCell>
+                <TableCell>{item.Tags}</TableCell>
+                <TableCell>{item.Description}</TableCell>
+                <TableCell>{JSON.stringify(item.Extras)}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   )
 }

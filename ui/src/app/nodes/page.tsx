@@ -42,7 +42,6 @@ export default function NodeRegister() {
     }
 
     try {
-      console.log(username, password, publicKey)
       const response = await nodeService.register({ Username: username, Password: password, PublicKey: publicKey })
       router.push(`/nodes/status?approved=${response.Approved}&username=${encodeURIComponent(username)}`)
     } catch (error) {

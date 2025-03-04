@@ -15,7 +15,7 @@ A [Flower Framework](https://github.com/adap/flower) based federated learning co
 ### 1. Clone the Repository
 ```sh
 git clone https://github.com/dfabbroni/icfl-link.git
-cd repo
+cd icfl-link
 ```
 
 ### 2. Frontend Installation

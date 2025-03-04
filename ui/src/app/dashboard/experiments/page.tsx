@@ -51,7 +51,6 @@ export default function ExperimentsPage() {
   }
 
   const handleUpdateSubmit = async (e: React.FormEvent) => {
-    console.log('handleUpdateSubmit')
     e.preventDefault()
     if (!selectedExperiment) return
 
@@ -132,75 +131,77 @@ export default function ExperimentsPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Experiments</h1>
+      <div className="flex flex-col items-center">
+        <h1 className="text-3xl font-bold text-center mb-6">Experiments</h1>
         <Link href="/dashboard/experiments/create">
           <Button>Create New Experiment</Button>
         </Link>
       </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>
-              <Button variant="ghost" onClick={() => handleSort('ID')}>
-                ID {sortKey === 'ID' && (sortDirection === 'asc' ? '▲' : '▼')}
-              </Button>
-            </TableHead>
-            <TableHead>
-              <Button variant="ghost" onClick={() => handleSort('Username')}>
-                Username {sortKey === 'Username' && (sortDirection === 'asc' ? '▲' : '▼')}
-              </Button>
-            </TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Created At</TableHead>
-            <TableHead>Updated At</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {sortedExperiments.map((experiment) => (
-            <>
-              <TableRow 
-                key={experiment.ID} 
-                onClick={() => handleRowClick(experiment)}
-                className="cursor-pointer hover:bg-gray-100"
-              >
-                <TableCell>{experiment.ID}</TableCell>
-                <TableCell>{experiment.User.Username}</TableCell>
-                <TableCell>{experiment.Name}</TableCell>
-                <TableCell>{experiment.Description}</TableCell>
-                <TableCell>{experiment.Status}</TableCell>
-                <TableCell>{new Date(experiment.CreatedAt).toLocaleString()}</TableCell>
-                <TableCell>{new Date(experiment.UpdatedAt).toLocaleString()}</TableCell>
-              </TableRow>
-              {expandedExperimentId === experiment.ID && (
-                <TableRow>
-                  <TableCell colSpan={7}>
-                    <div className="p-4 bg-gray-50">
-                      <h3 className="font-bold mb-2">Experiment Nodes:</h3>
-                      {experiment.ExperimentNodes && experiment.ExperimentNodes.map((node: ExperimentNode) => (
-                        <div key={`${node.ExperimentID}-${node.NodeID}`} className="mb-2">
-                          <p>Node ID: {node.NodeID}</p>
-                          <p>Node: {node.Node.Username}</p>
-                          <p>Metadata: {node.Metadata.Name}</p>
-                          <p>Status: {node.Status}</p>
-                        </div>
-                      ))}
-                      <div className="mt-4 space-x-2">
-                        <Button onClick={(e) => handleUpdate(experiment, e)}>Update Experiment</Button>
-                        <Button onClick={(e) => handleResendFiles(experiment.ID, e)}>Resend Files</Button>
-                        <Button onClick={(e) => handleStartTraining(experiment.ID, e)}>Start Training</Button>
-                        <Button onClick={(e) => handleStopTraining(experiment.ID, e)}>Stop Training</Button>
-                      </div>
-                    </div>
-                  </TableCell>
+      <div className="overflow-x-auto">
+        <Table className="min-w-full bg-white shadow-md rounded-lg">
+          <TableHeader>
+            <TableRow>
+              <TableHead>
+                <Button variant="ghost" onClick={() => handleSort('ID')}>
+                  ID {sortKey === 'ID' && (sortDirection === 'asc' ? '▲' : '▼')}
+                </Button>
+              </TableHead>
+              <TableHead>
+                <Button variant="ghost" onClick={() => handleSort('Username')}>
+                  Username {sortKey === 'Username' && (sortDirection === 'asc' ? '▲' : '▼')}
+                </Button>
+              </TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Created At</TableHead>
+              <TableHead>Updated At</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {sortedExperiments.map((experiment) => (
+              <>
+                <TableRow 
+                  key={experiment.ID} 
+                  onClick={() => handleRowClick(experiment)}
+                  className="cursor-pointer hover:bg-gray-100"
+                >
+                  <TableCell>{experiment.ID}</TableCell>
+                  <TableCell>{experiment.User.Username}</TableCell>
+                  <TableCell>{experiment.Name}</TableCell>
+                  <TableCell>{experiment.Description}</TableCell>
+                  <TableCell>{experiment.Status}</TableCell>
+                  <TableCell>{new Date(experiment.CreatedAt).toLocaleString()}</TableCell>
+                  <TableCell>{new Date(experiment.UpdatedAt).toLocaleString()}</TableCell>
                 </TableRow>
-              )}
-            </>
-          ))}
-        </TableBody>
-      </Table>
+                {expandedExperimentId === experiment.ID && (
+                  <TableRow>
+                    <TableCell colSpan={7}>
+                      <div className="p-4 bg-gray-50">
+                        <h3 className="font-bold mb-2">Experiment Nodes:</h3>
+                        {experiment.ExperimentNodes && experiment.ExperimentNodes.map((node: ExperimentNode) => (
+                          <div key={`${node.ExperimentID}-${node.NodeID}`} className="mb-2">
+                            <p>Node ID: {node.NodeID}</p>
+                            <p>Node: {node.Node.Username}</p>
+                            <p>Metadata: {node.Metadata.Name}</p>
+                            <p>Status: {node.Status}</p>
+                          </div>
+                        ))}
+                        <div className="mt-4 space-x-2">
+                          <Button onClick={(e) => handleUpdate(experiment, e)}>Update Experiment</Button>
+                          <Button onClick={(e) => handleResendFiles(experiment.ID, e)}>Resend Files</Button>
+                          <Button onClick={(e) => handleStartTraining(experiment.ID, e)}>Start Training</Button>
+                          <Button onClick={(e) => handleStopTraining(experiment.ID, e)}>Stop Training</Button>
+                        </div>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
 
       <Dialog open={isUpdateDialogOpen} onOpenChange={setIsUpdateDialogOpen}>
         <DialogContent>
