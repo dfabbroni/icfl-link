@@ -73,6 +73,8 @@ All logs are saved to:
           └── task.pt
   ```
 
+- You may download an example here: [Experiment Example](https://utpac-my.sharepoint.com/:u:/g/personal/david_fabbroni_utp_ac_pa/EasbsUyD2M5Mn3_hC6FREh0BxFaX01rg9u78VLxp25agCw?e=MQ0a2W)
+
 ### Flower App Configuration
 The `pyproject.toml` file must contain the same `experiment_name`. The `root-certificates` and `address` must remain as follows:
 
