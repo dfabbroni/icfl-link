@@ -5,6 +5,7 @@ A [Flower Framework](https://github.com/adap/flower) based federated learning co
 ## Installation
 
 ### Prerequisites
+- **Linux**
 - **npm** (version 9 or higher) for the frontend
 - **Python** 3.10+
 - **Golang** 1.22 (to compile if desired)
